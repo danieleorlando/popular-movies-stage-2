@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_popular"
+        android:title="@string/popular"
+        android:icon="@drawable/ic_whatshot_24dp" />
+    <item android:id="@+id/action_top_rated"
+        android:title="@string/top_rated"
+        android:icon="@drawable/ic_trending_up_24dp" />
+    <item android:id="@+id/action_favorites"
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_favorite_24dp" />
+</menu>
