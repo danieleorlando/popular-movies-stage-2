@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="sort_popular">Sort by popularity</string>
+    <string name="sort_top_rated">Sort by top rated</string>
+    <string name="poster_transition">poster_transition</string>
+    <string name="no_connection">No connection available. Tap to retry</string>
+</resources>
