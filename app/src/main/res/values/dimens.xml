@@ -2,5 +2,6 @@
 <resources>
     <dimen name="item_offset">16dp</dimen>
     <dimen name="margin_default">16dp</dimen>
-    <dimen name="poster_height_detail">120dp</dimen>
+    <dimen name="poster_width_detail">110dp</dimen>
+    <dimen name="poster_height_detail">140dp</dimen>
 </resources>

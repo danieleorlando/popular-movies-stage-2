@@ -53,6 +53,7 @@ public class TopRatedFragment extends Fragment implements View.OnClickListener{
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setNestedScrollingEnabled(false);
 
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
@@ -87,7 +88,6 @@ public class TopRatedFragment extends Fragment implements View.OnClickListener{
             messageTv.setVisibility(View.VISIBLE);
             messageTv.setText(getString(R.string.no_connection));
         }
-
 
         return view;
     }

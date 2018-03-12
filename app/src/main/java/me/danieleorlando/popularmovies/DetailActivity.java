@@ -2,6 +2,11 @@ package me.danieleorlando.popularmovies;
 
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +16,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.danieleorlando.popularmovies.model.Movie;
+import me.danieleorlando.popularmovies.ui.fragment.InfoFragment;
+import me.danieleorlando.popularmovies.ui.fragment.ReviewsFragment;
+import me.danieleorlando.popularmovies.ui.fragment.TrailersFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -21,10 +32,11 @@ public class DetailActivity extends AppCompatActivity {
     TextView titleTv;
     TextView dateTv;
     TextView ratingTv;
-    TextView overviewTv;
     CollapsingToolbarLayout collapsingToolbar;
     AppBarLayout appBar;
     Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +63,11 @@ public class DetailActivity extends AppCompatActivity {
         titleTv = findViewById(R.id.titleTv);
         dateTv = findViewById(R.id.dateTv);
         ratingTv = findViewById(R.id.ratingTv);
-        overviewTv = findViewById(R.id.overviewTv);
+        viewPager = findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void fillUI() {
@@ -66,8 +82,7 @@ public class DetailActivity extends AppCompatActivity {
 
         titleTv.setText(movie.getTitle());
         dateTv.setText(String.valueOf(movie.getReleaseDate()));
-        ratingTv.setText(String.format("%s/10", String.valueOf(movie.getVoteAverage())));
-        overviewTv.setText(String.valueOf(movie.getOverview()));
+        ratingTv.setText(String.format("%s / 10", String.valueOf(movie.getVoteAverage())));
     }
 
     @Override
@@ -77,5 +92,42 @@ public class DetailActivity extends AppCompatActivity {
             supportFinishAfterTransition();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(InfoFragment.newInstance(movie.getOverview()), getString(R.string.info));
+        adapter.addFragment(TrailersFragment.newInstance(movie.getId()), getString(R.string.trailers));
+        adapter.addFragment(ReviewsFragment.newInstance(movie.getId()), getString(R.string.reviews));
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

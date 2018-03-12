@@ -5,7 +5,11 @@
     <string name="favorites">Favorites</string>
     <string name="poster_transition">poster_transition</string>
     <string name="no_connection">No connection available. Tap to retry</string>
+    <string name="info">Info</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
