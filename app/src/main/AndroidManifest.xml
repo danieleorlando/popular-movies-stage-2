@@ -12,14 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.MainTheme">
+        <activity android:name=".ui.activity.MainActivity" android:theme="@style/AppTheme.MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity" android:theme="@style/AppTheme.DetailTheme" />
+        <activity android:name=".ui.activity.DetailActivity" android:theme="@style/AppTheme.DetailTheme" />
+
+        <provider
+            android:authorities="me.danieleorlando.popularmovies"
+            android:name="me.danieleorlando.popularmovies.database.MovieContentProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

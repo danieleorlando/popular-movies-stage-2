@@ -1,4 +1,4 @@
-package me.danieleorlando.popularmovies;
+package me.danieleorlando.popularmovies.ui.fragment;
 
 
 import android.content.Intent;
@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import me.danieleorlando.popularmovies.Constants;
+import me.danieleorlando.popularmovies.R;
 import me.danieleorlando.popularmovies.adapter.MovieAdapter;
 import me.danieleorlando.popularmovies.api.ApiService;
 import me.danieleorlando.popularmovies.model.Data;
+import me.danieleorlando.popularmovies.ui.activity.DetailActivity;
 import me.danieleorlando.popularmovies.utils.HttpUtils;
 import me.danieleorlando.popularmovies.utils.ItemOffsetDecoration;
 import retrofit2.Call;

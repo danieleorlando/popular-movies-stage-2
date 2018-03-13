@@ -61,12 +61,12 @@ public class ReviewsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
 
-        //recyclerView.hasFixedSize();
+        recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(true);
 
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
-        recyclerView.addItemDecoration(itemDecoration);
+        //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
+        //recyclerView.addItemDecoration(itemDecoration);
 
         adapter = new ReviewAdapter(getActivity().getLayoutInflater());
         recyclerView.setAdapter(adapter);
@@ -82,7 +82,6 @@ public class ReviewsFragment extends Fragment {
             public void onResponse(Call<ReviewResult> call, Response<ReviewResult> response) {
                 adapter.clearReviews();
                 adapter.addReviews(response.body().getReviews());
-
             }
 
             @Override

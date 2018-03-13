@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_default">
+    android:layout_height="@dimen/trailer_height_item"
+    android:background="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/userIv"
+        android:id="@+id/trailerIv"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_person_24dp"
+        android:src="@drawable/ic_play_circle_outline_24dp"
         android:tint="@color/grey_800"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/reviewTv"
+        android:id="@+id/trailerTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintStart_toEndOf="@+id/userIv"
+        app:layout_constraintStart_toEndOf="@+id/trailerIv"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:ellipsize="end"
-        android:maxLines="3"
-        tools:text="This is a review" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="This is a trailer" />
 
 </android.support.constraint.ConstraintLayout>
