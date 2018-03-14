@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.danieleorlando.popularmovies.Constants;
+import me.danieleorlando.popularmovies.config.Constants;
 import me.danieleorlando.popularmovies.R;
 import me.danieleorlando.popularmovies.model.Trailer;
 

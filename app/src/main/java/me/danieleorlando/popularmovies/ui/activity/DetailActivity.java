@@ -1,12 +1,8 @@
 package me.danieleorlando.popularmovies.ui.activity;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +11,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,9 +24,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import me.danieleorlando.popularmovies.Constants;
+import me.danieleorlando.popularmovies.config.Constants;
 import me.danieleorlando.popularmovies.R;
 import me.danieleorlando.popularmovies.database.MovieContract;
 import me.danieleorlando.popularmovies.model.Movie;
@@ -167,8 +161,9 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home);
-            supportFinishAfterTransition();
+        if (id == android.R.id.home) {
+            finish();
+        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import me.danieleorlando.popularmovies.ui.fragment.PopularFragment;
+import me.danieleorlando.popularmovies.ui.fragment.MoviesFragment;
 import me.danieleorlando.popularmovies.R;
-import me.danieleorlando.popularmovies.ui.fragment.TopRatedFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String MOVIE_FILTER_TYPE = "MOVIE_FILTER_TYPE";
+    public static final String MOVIE_FILTER_POPULAR = "MOVIE_FILTER_POPULAR";
+    public static final String MOVIE_FILTER_TOP_RATED = "MOVIE_FILTER_TOP_RATED";
+    public static final String MOVIE_FILTER_FAVORITES = "MOVIE_FILTER_FAVORITES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupUI();
 
-        switchFragment(new PopularFragment());
+        switchFragment(MoviesFragment.newInstance(MOVIE_FILTER_POPULAR));
     }
 
     private void setupUI() {
@@ -37,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId()==R.id.action_popular) {
-                    switchFragment(new PopularFragment());
+                    switchFragment(MoviesFragment.newInstance(MOVIE_FILTER_POPULAR));
                 } else if (item.getItemId()==R.id.action_top_rated) {
-                    switchFragment(new TopRatedFragment());
+                    switchFragment(MoviesFragment.newInstance(MOVIE_FILTER_TOP_RATED));
+                } else if (item.getItemId()==R.id.action_favorites) {
+                    switchFragment(MoviesFragment.newInstance(MOVIE_FILTER_FAVORITES));
                 }
                 return true;
             }

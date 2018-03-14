@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.danieleorlando.popularmovies.Constants;
+import me.danieleorlando.popularmovies.config.Constants;
 import me.danieleorlando.popularmovies.R;
 import me.danieleorlando.popularmovies.adapter.ReviewAdapter;
 import me.danieleorlando.popularmovies.api.ApiService;
 import me.danieleorlando.popularmovies.model.ReviewResult;
-import me.danieleorlando.popularmovies.utils.ItemOffsetDecoration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,9 +63,6 @@ public class ReviewsFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(true);
-
-        //ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
-        //recyclerView.addItemDecoration(itemDecoration);
 
         adapter = new ReviewAdapter(getActivity().getLayoutInflater());
         recyclerView.setAdapter(adapter);

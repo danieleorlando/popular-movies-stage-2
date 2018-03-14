@@ -65,7 +65,6 @@
                 android:layout_height="@dimen/poster_height_detail"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:transitionName="@string/poster_transition"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 

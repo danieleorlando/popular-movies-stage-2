@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.danieleorlando.popularmovies.Constants;
+import me.danieleorlando.popularmovies.config.Constants;
 import me.danieleorlando.popularmovies.R;
 import me.danieleorlando.popularmovies.adapter.TrailerAdapter;
 import me.danieleorlando.popularmovies.api.ApiService;
 import me.danieleorlando.popularmovies.model.TrailerResult;
-import me.danieleorlando.popularmovies.utils.ItemOffsetDecoration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
