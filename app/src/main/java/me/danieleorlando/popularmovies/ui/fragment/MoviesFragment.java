@@ -4,10 +4,13 @@ package me.danieleorlando.popularmovies.ui.fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +37,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MoviesFragment extends Fragment implements View.OnClickListener  {
 
     public String filter_type;
@@ -44,6 +44,12 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
     private MovieAdapter adapter;
     private RecyclerView recyclerView;
     private TextView messageTv;
+
+    private final String MOVIE_POSITION = "MOVIE_POSITION";
+    private final String MOVIE_LIST = "MOVIE_LIST";
+
+    private int position;
+    private List<Movie> movies;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -59,8 +65,20 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(MOVIE_POSITION, position);
+        outState.putParcelableArrayList(MOVIE_LIST, (ArrayList)movies);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (savedInstanceState!=null) {
+            position = savedInstanceState.getInt(MOVIE_POSITION);
+            movies = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
+        }
 
         filter_type = getArguments().getString(MainActivity.MOVIE_FILTER_TYPE);
 
@@ -75,7 +93,25 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
             }
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                GridLayoutManager layoutManager = (GridLayoutManager)
+                        recyclerView.getLayoutManager();
+                position = layoutManager.findFirstVisibleItemPosition();
+                Log.v("position",String.valueOf(position));
+            }
+        };
+
+        recyclerView.addOnScrollListener(onScrollListener);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
@@ -99,21 +135,27 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
     }
 
     private void getMovies() {
+        if (movies==null) {
+            movies = new ArrayList<>();
+            switch (filter_type) {
+                case MainActivity.MOVIE_FILTER_POPULAR:
+                    getOnlineMovies(filter_type);
+                    break;
 
-        switch (filter_type) {
-            case MainActivity.MOVIE_FILTER_POPULAR:
-                getOnlineMovies(filter_type);
-                break;
+                case MainActivity.MOVIE_FILTER_TOP_RATED:
+                    getOnlineMovies(filter_type);
+                    break;
 
-            case MainActivity.MOVIE_FILTER_TOP_RATED:
-                getOnlineMovies(filter_type);
-                break;
-
-            case MainActivity.MOVIE_FILTER_FAVORITES:
-                getLocalMovies();
-                break;
-
+                case MainActivity.MOVIE_FILTER_FAVORITES:
+                    getLocalMovies();
+                    break;
+            }
+        } else {
+            adapter.clearMovies();
+            adapter.addMovies(movies);
+            recyclerView.smoothScrollToPosition(position);
         }
+
     }
 
     private void getOnlineMovies(String filter_type) {
@@ -131,8 +173,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
                 service.getPopularMovies(Constants.API_KEY).enqueue(new Callback<Data>() {
                     @Override
                     public void onResponse(Call<Data> call, Response<Data> response) {
+                        movies = response.body().getMovies();
                         adapter.clearMovies();
-                        adapter.addMovies(response.body().getMovies());
+                        adapter.addMovies(movies);
                     }
 
                     @Override
@@ -143,8 +186,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
                 service.getTopRatedMovies(Constants.API_KEY).enqueue(new Callback<Data>() {
                     @Override
                     public void onResponse(Call<Data> call, Response<Data> response) {
+                        movies = response.body().getMovies();
                         adapter.clearMovies();
-                        adapter.addMovies(response.body().getMovies());
+                        adapter.addMovies(movies);
                     }
 
                     @Override
@@ -172,7 +216,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
                 null,
                 MovieContract.MovieEntry.COLUMN_MOVIE_ID);
 
-        List<Movie> favoritesMovies = new ArrayList<>();
+
+
         if(cursor != null && cursor.moveToFirst()) {
             for (int i = 0; i < cursor.getCount(); i++) {
                 Movie movie = new Movie();
@@ -182,13 +227,12 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
                 movie.setVoteAverage(cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_VOTE_AVERAGE)));
                 movie.setReleaseDate(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE)));
                 movie.setPosterPath(cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH)));
-                favoritesMovies.add(movie);
+                movies.add(movie);
 
                 cursor.moveToNext();
             }
-
             adapter.clearMovies();
-            adapter.addMovies(favoritesMovies);
+            adapter.addMovies(movies);
 
         }
     }

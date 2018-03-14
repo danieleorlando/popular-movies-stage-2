@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         setupUI();
 
-        switchFragment(MoviesFragment.newInstance(MOVIE_FILTER_POPULAR));
+        if (savedInstanceState==null)
+            switchFragment(MoviesFragment.newInstance(MOVIE_FILTER_POPULAR));
     }
 
     private void setupUI() {
