@@ -48,8 +48,8 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
     private final String MOVIE_POSITION = "MOVIE_POSITION";
     private final String MOVIE_LIST = "MOVIE_LIST";
 
-    private int position;
     private List<Movie> movies;
+    private GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -67,7 +67,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(MOVIE_POSITION, position);
+        outState.putParcelable(MOVIE_POSITION,gridLayoutManager.onSaveInstanceState());
         outState.putParcelableArrayList(MOVIE_LIST, (ArrayList)movies);
     }
 
@@ -76,7 +76,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
                              Bundle savedInstanceState) {
 
         if (savedInstanceState!=null) {
-            position = savedInstanceState.getInt(MOVIE_POSITION);
+            gridLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(MOVIE_POSITION));
             movies = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
         }
 
@@ -93,28 +93,9 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
             }
         });
 
-        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                GridLayoutManager layoutManager = (GridLayoutManager)
-                        recyclerView.getLayoutManager();
-                position = layoutManager.findFirstVisibleItemPosition();
-                Log.v("position",String.valueOf(position));
-            }
-        };
-
-        recyclerView.addOnScrollListener(onScrollListener);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.hasFixedSize();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(false);
 
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
@@ -153,7 +134,6 @@ public class MoviesFragment extends Fragment implements View.OnClickListener  {
         } else {
             adapter.clearMovies();
             adapter.addMovies(movies);
-            recyclerView.smoothScrollToPosition(position);
         }
 
     }

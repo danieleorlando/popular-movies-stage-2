@@ -21,6 +21,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                 MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL, " +
                 MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW + " TEXT, " +
                 MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH + " TEXT, " +
+                MovieContract.MovieEntry.COLUMN_MOVIE_BACKDROP_PATH + " TEXT, " +
                 MovieContract.MovieEntry.COLUMN_MOVIE_VOTE_AVERAGE + " REAL, " +
                 MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE + " DATETIME " +
                 "); ";
@@ -32,6 +33,5 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.delete(MovieContract.MovieEntry.TABLE_MOVIE, null, null);
-        onCreate(db);
     }
 }
